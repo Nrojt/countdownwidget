@@ -8,3 +8,8 @@
 .externalNativeBuild
 .cxx
 local.properties
+.kotlin/
+*.hprof
+*.apk
+*.aab
+*.ap_
