@@ -1,10 +1,10 @@
-package com.nrojt.countdownwidget.utils
+package com.nrojt.countdownwidget.util
 
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertFalse
 import org.junit.Assert.assertTrue
 import org.junit.Test
-import com.nrojt.countdownwidget.utils.CountdownHelper.TimeRemaining
+import com.nrojt.countdownwidget.util.CountdownHelper.TimeRemaining
 
 class CountdownHelperTest {
 

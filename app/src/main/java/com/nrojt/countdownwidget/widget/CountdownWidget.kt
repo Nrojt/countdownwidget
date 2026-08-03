@@ -24,7 +24,7 @@ import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import androidx.glance.color.ColorProvider as GlanceColorProvider
 import com.nrojt.countdownwidget.data.repository.CountdownRepository
-import com.nrojt.countdownwidget.utils.CountdownHelper
+import com.nrojt.countdownwidget.util.CountdownHelper
 import org.koin.core.context.GlobalContext
 
 /**

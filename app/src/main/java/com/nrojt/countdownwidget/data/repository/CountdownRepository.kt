@@ -3,12 +3,15 @@ package com.nrojt.countdownwidget.data.repository
 import com.nrojt.countdownwidget.data.CountdownEvent
 import com.nrojt.countdownwidget.data.CountdownEventDao
 import kotlinx.coroutines.flow.Flow
+import org.koin.core.annotation.Provided
+import org.koin.core.annotation.Single
 
 /**
  * Repository for managing [CountdownEvent] entries, using the [CountdownEventDao]
  */
 
-class CountdownRepository(private val dao: CountdownEventDao) {
+@Single
+class CountdownRepository(@Provided private val dao: CountdownEventDao) {
 
     fun getAllEvents(): Flow<List<CountdownEvent>> = dao.getAllEvents()
 

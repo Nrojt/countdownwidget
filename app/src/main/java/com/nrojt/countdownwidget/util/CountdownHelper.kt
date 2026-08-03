@@ -1,4 +1,4 @@
-package com.nrojt.countdownwidget.utils
+package com.nrojt.countdownwidget.util
 
 import java.util.concurrent.TimeUnit
 

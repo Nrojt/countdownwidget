@@ -1,19 +1,22 @@
 package com.nrojt.countdownwidget
 
 import android.app.Application
-import com.nrojt.countdownwidget.di.appModule
+import com.nrojt.countdownwidget.di.CountdownModule
+import com.nrojt.countdownwidget.di.roomModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
-import org.koin.core.context.startKoin
+import org.koin.core.annotation.KoinApplication
 import org.koin.core.logger.Level
+import org.koin.plugin.module.dsl.startKoin
 
+@KoinApplication(modules = [CountdownModule::class])
 class CountdownApplication : Application() {
     override fun onCreate() {
         super.onCreate()
-        startKoin {
+        startKoin<CountdownApplication> {
             androidLogger(Level.ERROR)
             androidContext(this@CountdownApplication)
-            modules(appModule)
+            modules(roomModule)
         }
     }
 }

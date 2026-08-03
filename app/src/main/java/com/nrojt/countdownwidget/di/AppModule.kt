@@ -2,35 +2,26 @@ package com.nrojt.countdownwidget.di
 
 import androidx.room.Room
 import com.nrojt.countdownwidget.data.CountdownDatabase
-import com.nrojt.countdownwidget.data.repository.CountdownRepository
-import com.nrojt.countdownwidget.ui.create.CreateCountdownViewModel
-import com.nrojt.countdownwidget.ui.home.HomeViewModel
+import com.nrojt.countdownwidget.data.CountdownEventDao
 import org.koin.android.ext.koin.androidContext
-import org.koin.core.module.dsl.viewModel
+import org.koin.core.module.Module
 import org.koin.dsl.module
 
 /**
- * Koin
+ * Room-provided dependencies that cannot be auto-wired by Koin annotations
+ * (abstract class / interface instantiated by the Room builder).
  */
-
-val appModule = module {
+val roomModule: Module = module {
 
     // Database
     single {
         Room.databaseBuilder(
             androidContext(),
             CountdownDatabase::class.java,
-            "countdown_database"
+            "countdown_database",
         ).build()
     }
 
     // DAO
-    single { get<CountdownDatabase>().countdownEventDao() }
-
-    // Repository
-    single { CountdownRepository(get()) }
-
-    // ViewModels
-    viewModel { HomeViewModel(get()) }
-    viewModel { CreateCountdownViewModel(get()) }
+    single<CountdownEventDao> { get<CountdownDatabase>().countdownEventDao() }
 }
