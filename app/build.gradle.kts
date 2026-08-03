@@ -64,6 +64,10 @@ dependencies {
     // Third-party
     implementation(libs.kizitonwose.calendar.compose)
 
+    // Koin
+    implementation(libs.koin.android)
+    implementation(libs.koin.androidx.compose)
+
     // Testing
     testImplementation(libs.junit)
     androidTestImplementation(platform(libs.androidx.compose.bom))

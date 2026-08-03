@@ -23,9 +23,9 @@ import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import androidx.glance.color.ColorProvider as GlanceColorProvider
-import com.nrojt.countdownwidget.data.CountdownDatabase
 import com.nrojt.countdownwidget.data.repository.CountdownRepository
 import com.nrojt.countdownwidget.utils.CountdownHelper
+import org.koin.core.context.GlobalContext
 
 /**
  * Glance app widget that displays a countdown to a linked [com.nrojt.countdownwidget.data.CountdownEvent].
@@ -36,9 +36,7 @@ class CountdownWidget : GlanceAppWidget() {
     override suspend fun provideGlance(context: Context, id: GlanceId) {
         val appWidgetId = GlanceAppWidgetManager(context)
             .getAppWidgetId(id)
-        val repository = CountdownRepository(
-            CountdownDatabase.getDatabase(context).countdownEventDao()
-        )
+        val repository = GlobalContext.get().get<CountdownRepository>()
         val event = repository.getByWidgetId(appWidgetId)
 
         val title = event?.title ?: "No event set"
