@@ -1,0 +1,66 @@
+name: 📋 New Item
+description: A bug, feature, refactor, or task — anything that goes on the board
+labels: ["backlog"]
+body:
+  - type: dropdown
+    id: type
+    attributes:
+      label: Type
+      options:
+        - 🐛 Bug
+        - ✨ Feature
+        - 🔧 Refactor / Tech Debt
+        - 📦 Dependency / Config
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      options:
+        - 🔴 Critical
+        - 🟠 High
+        - 🟡 Medium
+        - 🟢 Low
+    validations:
+      required: true
+
+  - type: dropdown
+    id: size
+    attributes:
+      label: Rough effort estimate
+      options:
+        - 🟢 Small (~1–2h)
+        - 🟡 Medium (~half day)
+        - 🟠 Large (1–2 days)
+        - 🔴 XL (multi-day — consider splitting)
+    validations:
+      required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: What & why
+      description: What needs to be done and why. For bugs, include steps to reproduce and expected vs. actual behavior.
+    validations:
+      required: true
+
+  - type: textarea
+    id: scope
+    attributes:
+      label: Sub-tasks
+      description: Break it into actionable items so you can track progress on the board.
+      placeholder: |
+        - [ ] Item 1
+        - [ ] Item 2
+    validations:
+      required: false
+
+  - type: textarea
+    id: context
+    attributes:
+      label: Additional context
+      description: Logs, screenshots, links, mockups, relevant files — anything else useful.
+    validations:
+      required: false
