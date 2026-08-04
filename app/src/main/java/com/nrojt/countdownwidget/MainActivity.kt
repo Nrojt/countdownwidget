@@ -14,12 +14,13 @@ import com.nrojt.countdownwidget.widget.CountdownWidget
  *
  * Reads an optional widget ID from the launch intent (when opened from a
  * widget tap) and passes it to [AppNavigation] so the user lands on the
- * create-countdown screen.
+ * select-countdown screen.
  */
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
+
         val widgetId = intent?.getIntExtra(CountdownWidget.EXTRA_WIDGET_ID, -1)?.takeIf { it >= 0 }
         setContent {
             CountdownWidgetTheme {

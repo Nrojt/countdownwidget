@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.nrojt.countdownwidget.ui.create.CreateCountdownScreen
 import com.nrojt.countdownwidget.ui.home.HomeScreen
+import com.nrojt.countdownwidget.ui.select.SelectCountdownScreen
 
 /** Route constants used by [AppNavigation]. */
 object Routes {
@@ -15,6 +16,9 @@ object Routes {
 
     /** Route for the create/edit countdown screen. */
     const val CREATE = "create"
+
+    /** Route for the select countdown screen (when linking a countdown to a widget). */
+    const val SELECT = "select"
 }
 
 /**
@@ -31,12 +35,12 @@ fun AppNavigation(
     widgetId: Int? = null,
 ) {
     val navController = rememberNavController()
-    val startDestination = if (widgetId != null) Routes.CREATE else Routes.HOME
+    val startDestination = if (widgetId != null) Routes.SELECT else Routes.HOME
 
     // Pop back to Home after saving from a widget-originated Create flow
     LaunchedEffect(widgetId) {
         if (widgetId != null) {
-            navController.navigate(Routes.CREATE) {
+            navController.navigate(Routes.SELECT) {
                 popUpTo(Routes.HOME) { inclusive = false }
             }
         }
@@ -55,6 +59,11 @@ fun AppNavigation(
             CreateCountdownScreen(
                 widgetId = widgetId,
                 onBackClick = { navController.popBackStack() },
+            )
+        }
+        composable(Routes.SELECT) {
+            SelectCountdownScreen(
+                onCreateClick = { navController.navigate(Routes.CREATE) },
             )
         }
     }

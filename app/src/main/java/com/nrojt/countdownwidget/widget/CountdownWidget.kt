@@ -58,7 +58,7 @@ class CountdownWidget : GlanceAppWidget() {
                         )
                         .cornerRadius(16.dp)
                         .padding(16.dp)
-                        .clickable(launchCreateIntent(context, appWidgetId)),
+                        .clickable(launchSelectIntent(context, appWidgetId)),
                     contentAlignment = Alignment.Center
                 ) {
                     Column(
@@ -95,7 +95,7 @@ class CountdownWidget : GlanceAppWidget() {
                         )
                         .cornerRadius(16.dp)
                         .padding(16.dp)
-                        .clickable(launchCreateIntent(context, appWidgetId)),
+                        .clickable(launchSelectIntent(context, appWidgetId)),
                     contentAlignment = Alignment.Center
                 ) {
                     Column(
@@ -111,7 +111,7 @@ class CountdownWidget : GlanceAppWidget() {
                         )
                         Spacer(GlanceModifier.height(8.dp))
                         Text(
-                            text = "Tap to create a new countdown",
+                            text = "Tap to select countdown",
                             style = TextStyle(
                                 color = GlanceColorProvider(day = Color(0xFF8EB8FF), night = Color(0xFF8EB8FF))
                             )
@@ -128,10 +128,11 @@ class CountdownWidget : GlanceAppWidget() {
 
         /**
          * Builds a [Glance action] that launches [MainActivity] and navigates to the
-         * Create Countdown screen, passing the widget ID so the created event can be
+         * Select Countdown screen, passing the widget ID so the created event can be
          * linked to this widget instance.
+         *  TODO, not working yet
          */
-        private fun launchCreateIntent(context: Context, widgetId: Int) =
+        private fun launchSelectIntent(context: Context, widgetId: Int) =
             androidx.glance.appwidget.action.actionStartActivity(
                 Intent(context, MainActivity::class.java).apply {
                     flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
