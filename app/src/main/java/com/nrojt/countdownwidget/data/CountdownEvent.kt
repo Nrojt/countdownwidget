@@ -12,5 +12,6 @@ data class CountdownEvent(
     val id: Long = 0,
     val title: String,
     val targetDateTime: Long, // epoch millis
-    val widgetId: Int? = null // linked Glance widget instance ID
+    val widgetId: Int? = null, // linked Glance widget instance ID
+    val recurrenceType: RecurrenceType = RecurrenceType.NONE // If the event repeats, and if so how often
 )

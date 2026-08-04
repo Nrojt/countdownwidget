@@ -1,10 +1,12 @@
 package com.nrojt.countdownwidget.widget
 
 import android.content.Context
+import android.content.Intent
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.glance.GlanceId
 import androidx.glance.GlanceModifier
+import androidx.glance.action.clickable
 import androidx.glance.appwidget.GlanceAppWidget
 import androidx.glance.appwidget.GlanceAppWidgetManager
 import androidx.glance.appwidget.GlanceAppWidgetReceiver
@@ -23,6 +25,7 @@ import androidx.glance.text.FontWeight
 import androidx.glance.text.Text
 import androidx.glance.text.TextStyle
 import androidx.glance.color.ColorProvider as GlanceColorProvider
+import com.nrojt.countdownwidget.MainActivity
 import com.nrojt.countdownwidget.data.repository.CountdownRepository
 import com.nrojt.countdownwidget.util.CountdownHelper
 import org.koin.core.context.GlobalContext
@@ -40,47 +43,100 @@ class CountdownWidget : GlanceAppWidget() {
         val event = repository.getByWidgetId(appWidgetId)
 
         val title = event?.title ?: "No event set"
-        val remainingText = if (event != null) {
-            CountdownHelper.formatRemaining(event.targetDateTime)
-        } else {
-            "Tap to configure"
-        }
-
-        provideContent {
-            Box(
-                modifier = GlanceModifier
-                    .fillMaxSize()
-                    .background(
-                        GlanceColorProvider(
-                            day = Color(0xFF1A1A2E),
-                            night = Color(0xFF0F0F1E)
+        if (event != null) {
+            val remainingText =
+                CountdownHelper.formatRemaining(event.targetDateTime, event.recurrenceType)
+            provideContent {
+                Box(
+                    modifier = GlanceModifier
+                        .fillMaxSize()
+                        .background(
+                            GlanceColorProvider(
+                                day = Color(0xFF1A1A2E),
+                                night = Color(0xFF0F0F1E)
+                            )
                         )
-                    )
-                    .cornerRadius(16.dp)
-                    .padding(16.dp),
-                contentAlignment = Alignment.Center
-            ) {
-                Column(
-                    modifier = GlanceModifier.fillMaxWidth(),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                        .cornerRadius(16.dp)
+                        .padding(16.dp)
+                        .clickable(launchCreateIntent(context, appWidgetId)),
+                    contentAlignment = Alignment.Center
                 ) {
-                    Text(
-                        text = title,
-                        style = TextStyle(
-                            color = GlanceColorProvider(day = Color.White, night = Color.White),
-                            fontWeight = FontWeight.Bold
+                    Column(
+                        modifier = GlanceModifier.fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = title,
+                            style = TextStyle(
+                                color = GlanceColorProvider(day = Color.White, night = Color.White),
+                                fontWeight = FontWeight.Bold
+                            )
                         )
-                    )
-                    Spacer(GlanceModifier.height(8.dp))
-                    Text(
-                        text = remainingText,
-                        style = TextStyle(
-                            color = GlanceColorProvider(day = Color(0xFF8EB8FF), night = Color(0xFF8EB8FF))
+                        Spacer(GlanceModifier.height(8.dp))
+                        Text(
+                            text = remainingText,
+                            style = TextStyle(
+                                color = GlanceColorProvider(day = Color(0xFF8EB8FF), night = Color(0xFF8EB8FF))
+                            )
                         )
-                    )
+                    }
+                }
+            }
+        } else {
+            provideContent {
+                Box(
+                    modifier = GlanceModifier
+                        .fillMaxSize()
+                        .background(
+                            GlanceColorProvider(
+                                day = Color(0xFF1A1A2E),
+                                night = Color(0xFF0F0F1E)
+                            )
+                        )
+                        .cornerRadius(16.dp)
+                        .padding(16.dp)
+                        .clickable(launchCreateIntent(context, appWidgetId)),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Column(
+                        modifier = GlanceModifier.fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            text = title,
+                            style = TextStyle(
+                                color = GlanceColorProvider(day = Color.White, night = Color.White),
+                                fontWeight = FontWeight.Bold
+                            )
+                        )
+                        Spacer(GlanceModifier.height(8.dp))
+                        Text(
+                            text = "Tap to create a new countdown",
+                            style = TextStyle(
+                                color = GlanceColorProvider(day = Color(0xFF8EB8FF), night = Color(0xFF8EB8FF))
+                            )
+                        )
+                    }
                 }
             }
         }
+    }
+
+    companion object {
+        const val EXTRA_WIDGET_ID = "widget_id"
+
+        /**
+         * Builds a [Glance action] that launches [MainActivity] and navigates to the
+         * Create Countdown screen, passing the widget ID so the created event can be
+         * linked to this widget instance.
+         */
+        private fun launchCreateIntent(context: Context, widgetId: Int) =
+            androidx.glance.appwidget.action.actionStartActivity(
+                Intent(context, MainActivity::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP
+                    putExtra(EXTRA_WIDGET_ID, widgetId)
+                }
+            )
     }
 }
 

@@ -19,7 +19,7 @@ val roomModule: Module = module {
             androidContext(),
             CountdownDatabase::class.java,
             "countdown_database",
-        ).build()
+        ).fallbackToDestructiveMigration(true).build()
     }
 
     // DAO
