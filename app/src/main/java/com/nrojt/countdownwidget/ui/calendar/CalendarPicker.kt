@@ -193,11 +193,17 @@ private fun Day(
 
 /* ---------- Helpers ---------- */
 
+/**
+ * Returns a display-friendly name for this [DayOfWeek].
+ *
+ * @param short if true (default) uses [TextStyle.SHORT], otherwise [TextStyle.NARROW].
+ */
 private fun DayOfWeek.displayText(short: Boolean = true): String {
     val style = if (short) TextStyle.SHORT else TextStyle.NARROW
     return getDisplayName(style, Locale.getDefault())
 }
 
+/** Returns this [YearMonth] formatted as e.g. "January 2026". */
 private fun YearMonth.displayText(): String {
     return "${month.getDisplayName(TextStyle.FULL, Locale.getDefault())} $year"
 }

@@ -123,6 +123,7 @@ class CountdownWidget : GlanceAppWidget() {
     }
 
     companion object {
+        /** Intent extra key carrying the widget instance ID. */
         const val EXTRA_WIDGET_ID = "widget_id"
 
         /**
@@ -140,6 +141,11 @@ class CountdownWidget : GlanceAppWidget() {
     }
 }
 
+/**
+ * Broadcast receiver that binds [CountdownWidget] to the AppWidget framework.
+ *
+ * Registered in the AndroidManifest to handle `APPWIDGET_UPDATE` broadcasts.
+ */
 class CountdownWidgetReceiver : GlanceAppWidgetReceiver() {
     override val glanceAppWidget = CountdownWidget()
 }

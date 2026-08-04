@@ -9,6 +9,13 @@ import com.nrojt.countdownwidget.ui.navigation.AppNavigation
 import com.nrojt.countdownwidget.ui.theme.CountdownWidgetTheme
 import com.nrojt.countdownwidget.widget.CountdownWidget
 
+/**
+ * Single-activity host for the app.
+ *
+ * Reads an optional widget ID from the launch intent (when opened from a
+ * widget tap) and passes it to [AppNavigation] so the user lands on the
+ * create-countdown screen.
+ */
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

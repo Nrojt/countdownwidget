@@ -30,6 +30,18 @@ import com.nrojt.countdownwidget.data.RecurrenceType
 import com.nrojt.countdownwidget.ui.calendar.CalendarPicker
 import org.koin.compose.viewmodel.koinViewModel
 
+/**
+ * Screen for creating a new countdown event.
+ *
+ * Displays a form with a title field, a [CalendarPicker] for date selection,
+ * and a recurrence type selector. When opened from a widget tap, the
+ * created event is automatically linked to that widget instance.
+ *
+ * @param onBackClick called when the user navigates back or after a successful save.
+ * @param widgetId the widget instance ID to link the new event to, or null if
+ *   created from within the app.
+ * @param viewModel the [CreateCountdownViewModel] managing form state and persistence.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CreateCountdownScreen(
@@ -99,6 +111,12 @@ fun CreateCountdownScreen(
     }
 }
 
+/**
+ * A row of [FilterChip]s for selecting a [RecurrenceType].
+ *
+ * @param selected the currently selected recurrence type.
+ * @param onSelect called when the user picks a recurrence type.
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun RecurrenceSelector(

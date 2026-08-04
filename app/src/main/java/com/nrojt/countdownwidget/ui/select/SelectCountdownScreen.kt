@@ -1,4 +1,4 @@
-package com.nrojt.countdownwidget.ui.home
+package com.nrojt.countdownwidget.ui.select
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -23,19 +23,17 @@ import com.nrojt.countdownwidget.ui.components.CountdownCard
 import org.koin.compose.viewmodel.koinViewModel
 
 /**
- * Main screen showing a list of all countdown events.
+ * Screen for selecting an existing [com.nrojt.countdownwidget.data.CountdownEvent]
+ * to link to a widget instance.
  *
- * Displays a [LazyColumn] of [CountdownCard]s, or an empty-state message
- * when no events exist. A floating action button navigates to the create screen.
- *
- * @param onCreateClick called when the user taps the "New Countdown" FAB.
- * @param viewModel the [HomeViewModel] providing the event list.
+ * @param viewModel the [SelectCountdownViewModel] providing the list of events.
  */
 @Composable
-fun HomeScreen(
+fun SelectCountdownScreen(
     onCreateClick: () -> Unit,
-    viewModel: HomeViewModel = koinViewModel(),
+    viewModel: SelectCountdownViewModel = koinViewModel(),
 ) {
+    // TODO: Show a list of existing countdowns for the user to pick from, like HomeScreen
     val events by viewModel.events.collectAsStateWithLifecycle()
 
     Scaffold(
@@ -72,7 +70,7 @@ fun HomeScreen(
                 ) { event ->
                     CountdownCard(
                         event = event,
-                        onDeleteClick = { viewModel.deleteEvent(event) },
+                        onSelectClick = { viewModel.selectEvent(event) },
                     )
                 }
             }

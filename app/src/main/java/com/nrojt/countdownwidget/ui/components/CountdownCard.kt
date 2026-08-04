@@ -1,5 +1,6 @@
 package com.nrojt.countdownwidget.ui.components
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -7,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -24,11 +26,28 @@ import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
+/**
+ * A reusable [Card] displaying a single countdown event.
+ *
+ * Shows the event title, formatted target date, and a live countdown string
+ * computed via [CountdownHelper.formatRemaining].
+ *
+ * Tapping the card body triggers [onSelectClick]. Edit and delete buttons
+ * are shown on the trailing side.
+ *
+ * @param event the countdown event to display.
+ * @param onSelectClick called when the user taps the card body (selection).
+ * @param onEditClick called when the user taps the edit button.
+ * @param onDeleteClick called when the user taps the delete button.
+ * @param modifier optional [Modifier] for the card.
+ */
 @Composable
 fun CountdownCard(
     event: CountdownEvent,
-    onDeleteClick: () -> Unit,
     modifier: Modifier = Modifier,
+    onSelectClick: () -> Unit = {},
+    onEditClick: () -> Unit = {},
+    onDeleteClick: () -> Unit = {},
 ) {
     val dateFormatter = remember { DateTimeFormatter.ofPattern("EEE, d MMM yyyy", Locale.getDefault()) }
     val zoneId = remember { ZoneId.systemDefault() }
@@ -48,11 +67,15 @@ fun CountdownCard(
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(16.dp),
+                .padding(start = 16.dp, top = 16.dp, bottom = 16.dp, end = 8.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Column(modifier = Modifier.weight(1f)) {
+            Column(
+                modifier = Modifier
+                    .weight(1f)
+                    .clickable(onClick = onSelectClick),
+            ) {
                 Text(
                     text = event.title,
                     style = MaterialTheme.typography.titleMedium,
@@ -66,6 +89,13 @@ fun CountdownCard(
                     text = countdownText,
                     style = MaterialTheme.typography.headlineSmall,
                     color = MaterialTheme.colorScheme.primary,
+                )
+            }
+            IconButton(onClick = onEditClick) {
+                Icon(
+                    imageVector = Icons.Default.Edit,
+                    contentDescription = "Edit ${event.title}",
+                    tint = MaterialTheme.colorScheme.onSurfaceVariant,
                 )
             }
             IconButton(onClick = onDeleteClick) {

@@ -9,6 +9,10 @@ import org.koin.core.annotation.KoinApplication
 import org.koin.core.logger.Level
 import org.koin.plugin.module.dsl.startKoin
 
+/**
+ * Application entry point. Configures Koin dependency injection by merging
+ * the auto-generated [CountdownModule] with the manually provided [roomModule].
+ */
 @KoinApplication(modules = [CountdownModule::class])
 class CountdownApplication : Application() {
     override fun onCreate() {

@@ -1,4 +1,4 @@
-package com.nrojt.countdownwidget.ui.home
+package com.nrojt.countdownwidget.ui.select
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -7,22 +7,17 @@ import com.nrojt.countdownwidget.data.repository.CountdownRepository
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 import org.koin.core.annotation.KoinViewModel
 
 /**
- * ViewModel for the [HomeScreen].
+ * ViewModel for the [SelectCountdownScreen].
  *
- * Exposes the list of all [CountdownEvent]s as a lifecycle-aware [StateFlow]
- * and handles event deletion.
- *
- * @param repository the data source for countdown events.
+ * Will expose the list of existing countdown events so the user can pick
+ * one to link to a widget instance.
  */
 @KoinViewModel
-class HomeViewModel(
-    private val repository: CountdownRepository,
-) : ViewModel() {
-
+class SelectCountdownViewModel(private val repository: CountdownRepository) : ViewModel() {
+    // TODO: Expose countdown event list for selection
     val events: StateFlow<List<CountdownEvent>> = repository.getAllEvents()
         .stateIn(
             scope = viewModelScope,
@@ -30,10 +25,10 @@ class HomeViewModel(
             initialValue = emptyList(),
         )
 
-    /** Deletes the given [event] from the repository. */
-    fun deleteEvent(event: CountdownEvent) {
-        viewModelScope.launch {
-            repository.delete(event.id)
-        }
+    /**
+     * Selects the given [event] to link to the widget instance.
+     */
+    fun selectEvent(event: CountdownEvent) {
+        TODO("Implement logic to handle event selection for widget linking")
     }
 }
